@@ -16,8 +16,31 @@ export default function Home() {
     kcals: "",
   });
 
+  const deleteFood = (id,dish) =>{
+    console.log("delete clicked")
+    switch(dish){
+      case "breakfast":
+        const newBreakfast= bre.filter((item)=>{return item.id != id })
+        setBre(newBreakfast);
+      break;
+      case "lunch":
+        const newLunch= lun.filter((item)=>{return item.id != id })
+        setLun(newLunch);
+      break;
+      case "dinner":
+        const newDinner= din.filter((item)=>{return item.id != id })
+        setDin(newDinner);
+      break;
+      case "snacks":
+        const newSnacks= sna.filter((item)=>{return item.id != id })
+        setSna(newSnacks);
+      break;
+      default:
+    }
+  }
+
   useEffect(() => {
-    console.log(currentFood);
+
     switch (dish) {
       case "breakfast":
         setBre([
@@ -44,7 +67,7 @@ export default function Home() {
         ]);
         break;
       default:
-        console.log("error");
+       
     }
   }, [currentFood]);
 
@@ -89,6 +112,7 @@ export default function Home() {
               <div key={item.id}>
                 <p>{item.name}</p>
                 <p>{item.kcals}</p>
+                <div onClick={()=>{deleteFood(item.id,"breakfast")}}>delete me</div>
               </div>
             ))}
           </div>
@@ -100,6 +124,7 @@ export default function Home() {
               <div key={item.id}>
                 <p>{item.name}</p>
                 <p>{item.kcals}</p>
+                <div onClick={()=>{deleteFood(item.id,"lunch")}}>delete me</div>
               </div>
             ))}
           </div>
@@ -111,6 +136,7 @@ export default function Home() {
               <div key={item.id}>
                 <p>{item.name}</p>
                 <p>{item.kcals}</p>
+                <div onClick={()=>{deleteFood(item.id,"dinner")}}>delete me</div>
               </div>
             ))}
           </div>
@@ -122,6 +148,7 @@ export default function Home() {
               <div key={item.id}>
                 <p>{item.name}</p>
                 <p>{item.kcals}</p>
+                <div onClick={()=>{deleteFood(item.id,"snacks")}}>delete me</div>
               </div>
             ))}
           </div>
