@@ -20,35 +20,31 @@ export default function Home() {
     console.log(currentFood);
     switch (dish) {
       case "breakfast":
-        bre.push({
-          id: uuid(),
-          name: currentFood.name,
-          kcals: currentFood.kcals,
-        });
+        setBre([
+          ...bre,
+          { id: uuid(), name: currentFood.name, kcals: currentFood.kcals },
+        ]);
         break;
       case "lunch":
-        lun.push({
-          id: uuid(),
-          name: currentFood.name,
-          kcals: currentFood.kcals,
-        });
+        setLun([
+          ...lun,
+          { id: uuid(), name: currentFood.name, kcals: currentFood.kcals },
+        ]);
         break;
       case "dinner":
-        din.push({
-          id: uuid(),
-          name: currentFood.name,
-          kcals: currentFood.kcals,
-        });
+        setDin([
+          ...din,
+          { id: uuid(), name: currentFood.name, kcals: currentFood.kcals },
+        ]);
         break;
       case "snacks":
-        sna.push({
-          id: uuid(),
-          name: currentFood.name,
-          kcals: currentFood.kcals,
-        });
+        setSna([
+          ...sna,
+          { id: uuid(), name: currentFood.name, kcals: currentFood.kcals },
+        ]);
         break;
-        default:
-          console.log("error");
+      default:
+        console.log("error");
     }
   }, [currentFood]);
 
@@ -89,14 +85,12 @@ export default function Home() {
         <div>
           <h2>Breakfast</h2>
           <div>
-            {useEffect(()=>{
-              bre.map((item) => (
-                <div key={item.id}>
-                  <p>{item.name}</p>
-                  <p>{item.kcals}</p>
-                </div>
-              ))
-            },[bre])}
+            {bre.map((item) => (
+              <div key={item.id}>
+                <p>{item.name}</p>
+                <p>{item.kcals}</p>
+              </div>
+            ))}
           </div>
         </div>
         <div>
