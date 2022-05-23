@@ -121,15 +121,15 @@ export default function Home() {
 </svg>
         <span className="px-4 text-xl font-semibold">Calculator</span>
       </nav>
-      <main className="flex justify-around text-center bg-gray-100">
+      <main className="flex justify-around text-center bg-gray-100 py-5">
         
-        <div>
+        <div className="w-full">
           <h2 className="text-xl font-semibold">Breakfast</h2>
-          <div>
+          <div className="h-72 overflow-y-scroll scrollbar">
             {bre.map((item) => (
-              <div className="flex gap-2 py-2" key={item.id}>
-                <p>{item.name}</p>
-                <p>{item.kcals}</p>
+              <div className="flex gap-2 py-2 max-h-full justify-center" key={item.id}>
+                <p>{item.name} |</p>
+                <p> {item.kcals} kcals |</p>
                 <div onClick={()=>{deleteFood(item.id,"breakfast",item.kcals)}}>                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
   <path strokeLinecap="round" strokeLinejoin="round" d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
 </svg></div>
@@ -137,16 +137,17 @@ export default function Home() {
             ))
             
             }
-            <p>Total: {breakfastTotal}</p>
           </div>
+          <p className="font-semibold text-lg mt-3">Total: {breakfastTotal}</p>
+
         </div>
-        <div>
+        <div className="w-full">
           <h2 className="text-xl font-semibold">Lunch</h2>
-          <div>
+          <div className="h-72 overflow-y-scroll scrollbar">
             {lun.map((item) => (
-              <div className="flex gap-2 py-2 items-center" key={item.id}>
-                <p>{item.name}</p>
-                <p>{item.kcals}</p>
+              <div className="flex gap-2 py-2  justify-center" key={item.id}>
+                <p>{item.name} |</p>
+                <p>{item.kcals} kcals |</p>
                 <div onClick={()=>{deleteFood(item.id,"lunch",item.kcals)}}>
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
   <path strokeLinecap="round" strokeLinejoin="round" d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -154,38 +155,42 @@ export default function Home() {
                 </div>
               </div>
             ))}
-            <p>Total: {lunchTotal}</p>
+            
           </div>
+          <p className="font-semibold text-lg mt-3">Total: {lunchTotal}</p>
         </div>
-        <div>
+        <div className="w-full">
           <h2 className="text-xl font-semibold">Dinner</h2>
-          <div>
+          <div className="h-72 overflow-y-scroll scrollbar">
             {din.map((item) => (
-              <div className="flex gap-2 py-2" key={item.id}>
-                <p>{item.name}</p>
-                <p>{item.kcals}</p>
+              <div className="flex gap-2 py-2 justify-center" key={item.id}>
+                <p>{item.name} |</p>
+                <p>{item.kcals} kcals |</p>
                 <div onClick={()=>{deleteFood(item.id,"dinner",item.kcals)}}>                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
   <path strokeLinecap="round" strokeLinejoin="round" d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
 </svg></div>
               </div>
             ))}
-            <p>Total: {dinnerTotal}</p>
           </div>
+          <p className="font-semibold text-lg mt-3">Total: {dinnerTotal}</p>
+
         </div>
-        <div>
+        <div className="w-full">
           <h2 className="text-xl font-semibold">Snacks</h2>
-          <div>
+          <div className="h-72 overflow-y-scroll scrollbar">
             {sna.map((item) => (
-              <div className="flex gap-2 py-2" key={item.id}>
-                <p>{item.name}</p>
-                <p>{item.kcals}</p>
+              <div className="flex gap-2 py-2 justify-center" key={item.id}>
+                <p>{item.name} |</p>
+                <p>{item.kcals} kcals |</p>
                 <div onClick={()=>{deleteFood(item.id,"snacks",item.kcals)}}>                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
   <path strokeLinecap="round" strokeLinejoin="round" d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
 </svg></div>
               </div>
             ))}
-            <p>Total: {snacksTotal}</p>
+            <p className="font-semibold text-lg mt-3">Total: {snacksTotal}</p>
           </div>
+          <p className="font-semibold text-lg mt-3">Total: {snacksTotal}</p>
+
         </div>
       </main>
       <form onSubmit={handleSubmit}>
