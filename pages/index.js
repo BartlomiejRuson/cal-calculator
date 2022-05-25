@@ -19,6 +19,21 @@ export default function Home() {
     kcals: "",
   });
 
+ const hideButton = async () =>{
+   const  myForm = document.querySelector('.myform')
+   const myButton = document.querySelector('.plusButton')
+   const myFormPosition = myForm.getBoundingClientRect().top;
+   const screenPosition = window.innerHeight;
+   if(myFormPosition<screenPosition+20){
+     myButton.classList.add('hidden');
+   } else {
+     myButton.classList.remove("hidden");
+   }
+ }
+
+ window.addEventListener('scroll',hideButton);
+
+
   const deleteFood = (id, dish, kcals) => {
     console.log("delete clicked");
     switch (dish) {
@@ -88,7 +103,7 @@ export default function Home() {
     }
   }, [currentFood]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const options = {
       method: "GET",
@@ -138,8 +153,8 @@ export default function Home() {
         </svg>
         <span className="px-4 text-xl font-semibold">Calculator</span>
       </nav>
-      <main className="flex justify-around text-center bg-gray-100 py-5">
-        <div className="w-full">
+      <main className="flex flex-col  md:flex-row md:justify-around text-center bg-gray-100 md:py-5">
+        <div className="w-full border mx-1  border-gray-300">
           <h2 className="text-xl font-semibold">Breakfast</h2>
           <div className="h-72 overflow-y-scroll scrollbar">
             {bre.map((item) => (
@@ -147,8 +162,8 @@ export default function Home() {
                 className="flex gap-2 my-1  py-2 max-h-full justify-center "
                 key={item.id}
               >
-                <p  className="border-r border-black pr-2">{item.name}</p>
-                <p  className="border-r border-black pr-2">{item.kcals} kcals</p>
+                <p className="border-r border-black pr-2">{item.name}</p>
+                <p className="border-r border-black pr-2">{item.kcals} kcals</p>
                 <div
                   className="cursor-pointer"
                   onClick={() => {
@@ -176,7 +191,7 @@ export default function Home() {
           </div>
           <p className="font-semibold text-lg mt-3">Total: {breakfastTotal}</p>
         </div>
-        <div className="w-full">
+        <div className="w-full border mx-1 border-gray-300">
           <h2 className="text-xl font-semibold">Lunch</h2>
           <div className="h-72 overflow-y-scroll scrollbar">
             {lun.map((item) => (
@@ -209,13 +224,13 @@ export default function Home() {
           </div>
           <p className="font-semibold text-lg mt-3">Total: {lunchTotal}</p>
         </div>
-        <div className="w-full">
+        <div className="w-full border mx-1 border-gray-300">
           <h2 className="text-xl font-semibold">Dinner</h2>
           <div className="h-72 overflow-y-scroll scrollbar">
             {din.map((item) => (
               <div className="flex gap-2 py-2 justify-center" key={item.id}>
-                <p  className="border-r border-black pr-2">{item.name}</p>
-                <p  className="border-r border-black pr-2">{item.kcals} kcals</p>
+                <p className="border-r border-black pr-2">{item.name}</p>
+                <p className="border-r border-black pr-2">{item.kcals} kcals</p>
                 <div
                   className="cursor-pointer"
                   onClick={() => {
@@ -243,13 +258,13 @@ export default function Home() {
           </div>
           <p className="font-semibold text-lg mt-3">Total: {dinnerTotal}</p>
         </div>
-        <div className="w-full">
+        <div className="w-full border mx-1 border-gray-300">
           <h2 className="text-xl font-semibold">Snacks</h2>
           <div className="h-72 overflow-y-scroll scrollbar">
             {sna.map((item) => (
               <div className="flex gap-2 py-2 justify-center" key={item.id}>
-                <p  className="border-r border-black pr-2">{item.name}</p>
-                <p  className="border-r border-black pr-2">{item.kcals} kcals</p>
+                <p className="border-r border-black pr-2">{item.name}</p>
+                <p className="border-r border-black pr-2">{item.kcals} kcals</p>
                 <div
                   className="cursor-pointer"
                   onClick={() => {
@@ -274,14 +289,29 @@ export default function Home() {
                 </div>
               </div>
             ))}
-           
           </div>
           <p className="font-semibold text-lg mt-3">Total: {snacksTotal}</p>
         </div>
+        <div className="fixed plusButton hover:scale-110 transition-all ease-out cursor-pointer md:hidden right-14 bottom-14">
+          <a href="#form">  <svg
+          className="w-20 h-20 text-green-500"
+            xmlns="http://www.w3.org/2000/svg"           
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path
+              fillRule="evenodd"
+              d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z"
+              clipRule="evenodd"
+            />
+          </svg></a>
+        
+        </div>
       </main>
       <form
-        className=" text-center bg-gray-200 border-t border-black"
+        className="myform text-center bg-gray-200 border-t border-black"
         onSubmit={handleSubmit}
+        id="form"
       >
         <h2 className="py-5 font-semibold text-lg">Add something</h2>
         <label htmlFor="food" className="font-semibold text-lg">
@@ -298,7 +328,6 @@ export default function Home() {
         <div className="flex justify-center flex-col">
           <div>
             <input
-            
               type="radio"
               name="dish"
               id="Breakfast"
@@ -307,11 +336,12 @@ export default function Home() {
                 setDish(e.target.value);
               }}
             />
-            <label htmlFor="breakfast" className="px-1">Breakfast</label>
+            <label htmlFor="breakfast" className="px-1">
+              Breakfast
+            </label>
           </div>
           <div>
             <input
-            
               type="radio"
               name="dish"
               id="Lunch"
@@ -320,12 +350,13 @@ export default function Home() {
                 setDish(e.target.value);
               }}
             />
-            <label htmlFor="Lunch" className="px-1">Lunch</label>
+            <label htmlFor="Lunch" className="px-1">
+              Lunch
+            </label>
           </div>
           <div>
             {" "}
             <input
-            
               type="radio"
               name="dish"
               id="Dinner"
@@ -334,12 +365,12 @@ export default function Home() {
                 setDish(e.target.value);
               }}
             />
-            <label htmlFor="Dinner" className="px-1">Dinner</label>
+            <label htmlFor="Dinner" className="px-1">
+              Dinner
+            </label>
           </div>
           <div>
-
             <input
-            
               type="radio"
               name="dish"
               id="Snacks"
@@ -348,13 +379,18 @@ export default function Home() {
                 setDish(e.target.value);
               }}
             />
-            <label htmlFor="Snacks" className="px-1">Snacks</label>
+            <label htmlFor="Snacks" className="px-1">
+              Snacks
+            </label>
           </div>
         </div>
 
-        <button type="submit" className="px-4 py-2 my-2  font-bold shadow bg-white focus:shadow-outline hover:bg-green-300 transition-all ease-out">ADD</button>
-        {/* <input type="submit" value="SUBMIT" className='shadow bg-yellow-500 hover:bg-yellow-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded cursor-pointer' /> */}
-
+        <button
+          type="submit"
+          className="px-4 py-2 my-2  font-bold shadow bg-white focus:shadow-outline hover:bg-green-300 transition-all ease-out"
+        >
+          ADD
+        </button>
       </form>
     </div>
   );
