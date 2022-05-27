@@ -24,18 +24,23 @@ export default function Home() {
    const myButton = document.querySelector('.plusButton')
    const myFormPosition = myForm.getBoundingClientRect().top;
    const screenPosition = window.innerHeight;
-   if(myFormPosition<screenPosition+20){
+   if(myFormPosition<screenPosition-60){
      myButton.classList.add('hidden');
    } else {
      myButton.classList.remove("hidden");
    }
  }
 
- window.addEventListener('scroll',hideButton);
+ if(typeof window === "undefined"){
+
+ } else {
+  window.addEventListener('scroll',hideButton);
+ }
+
+
 
 
   const deleteFood = (id, dish, kcals) => {
-    console.log("delete clicked");
     switch (dish) {
       case "breakfast":
         const newBreakfast = bre.filter((item) => {
@@ -112,7 +117,9 @@ export default function Home() {
         "X-RapidAPI-Key": "ed891157f5mshc9042211f64f080p1bbbf9jsnedd6101045bb",
       },
     };
-
+    if(ingr){
+      
+    }
     fetch(
       "https://edamam-food-and-grocery-database.p.rapidapi.com/parser?ingr=" +
         ingr,
@@ -336,7 +343,7 @@ export default function Home() {
                 setDish(e.target.value);
               }}
             />
-            <label htmlFor="breakfast" className="px-1">
+            <label htmlFor="Breakfast" className="px-1">
               Breakfast
             </label>
           </div>
