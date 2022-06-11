@@ -1,10 +1,21 @@
-import Link from 'next/link'
-import React from 'react'
+import Link from "next/link";
+import React,{useState} from "react";
+import { logout, useAuth } from "../../firebase";
+function Nav({ dayTotal }) {
+  const currentUser = useAuth();
+  const [loading,setLoading] = useState(false);
+  const handleLogout = async () =>{
+    setLoading(true);
+    try{
+      await logout();
+    } catch {
+      alert("logging out error")
+    }
+    setLoading(false);
+  }
 
-function Nav({dayTotal}) {
   return (
     <nav className="sticky top-0  bg-gray-200 py-1 border-b border-black">
-
       <div className="flex  justify-items-center items-center justify-center">
         <span className="px-4 text-xl font-semibold hidden md:block">
           Calorie
@@ -28,20 +39,26 @@ function Nav({dayTotal}) {
         </span>
       </div>
 
+      <div className="absolute flex justify-between top-1/2 right-0 w-1/3 md:w-3/12 -translate-y-1/2 font-semibold text-lg">
+        <h2>Today&apos;s total: {dayTotal}</h2>
+        <div className="mx-7 w-24 flex items-center cursor-pointer">
+          {currentUser ? (
 
-      
-    <div className='absolute flex justify-between top-1/2 right-0 w-1/3 md:w-1/4 -translate-y-1/2 font-semibold text-lg'>
-        <h2>
-        Today&apos;s total: {dayTotal}
-        </h2>
-        <div className='px-7 flex items-center cursor-pointer'>
-            <Link href='/signup'><span className='px-4 py-2 font-semibold shadow bg-white focus:shadow-outline hover:bg-green-300 transition-all ease-out text-base'>LOGIN</span></Link>
-            
-            </div>
-    </div>
+              <button disabled={loading} onClick={handleLogout} className="px-4 py-2 font-semibold shadow bg-white focus:shadow-outline hover:bg-green-300 transition-all ease-out text-base uppercase whitespace-nowrap">
+                Log out
+              </button>
 
-  </nav>
-  )
+          ) : (
+            <Link href="/signup">
+              <span className="px-4 py-2 font-semibold shadow bg-white focus:shadow-outline hover:bg-green-300 transition-all ease-out text-base uppercase whitespace-nowrap">
+                Sign up
+              </span>
+            </Link>
+          )}
+        </div>
+      </div>
+    </nav>
+  );
 }
 
-export default Nav
+export default Nav;
