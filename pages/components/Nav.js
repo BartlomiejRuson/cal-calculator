@@ -8,15 +8,16 @@ function Nav({ dayTotal }) {
     setLoading(true);
     try{
       await logout();
-    } catch {
-      alert("logging out error")
+    } catch(err) {
+      console.error(err)
     }
     setLoading(false);
   }
 
   return (
-    <nav className="sticky top-0  bg-gray-200 py-1 border-b border-black">
+    <nav className="sticky top-0 bg-myDarkBlue py-1 border-b border-black text-white">
       <div className="flex  justify-items-center items-center justify-center">
+                <h2 className=" absolute left-10 md:left-1/4 md:-translate-x-12 text-lg whitespace-nowrap text-center">Today&apos;s total: <br/> {dayTotal}</h2>
         <span className="px-4 text-xl font-semibold hidden md:block">
           Calorie
         </span>
@@ -39,18 +40,18 @@ function Nav({ dayTotal }) {
         </span>
       </div>
 
-      <div className="absolute flex justify-between top-1/2 right-0 w-1/3 md:w-3/12 -translate-y-1/2 font-semibold text-lg">
-        <h2>Today&apos;s total: {dayTotal}</h2>
-        <div className="mx-7 w-24 flex items-center cursor-pointer">
+      <div className="absolute flex justify-between top-1/2 right-0  -translate-y-1/2 font-semibold text-lg">
+
+        <div className="mr-2 mx-auto w-24 flex items-center cursor-pointer">
           {currentUser ? (
 
-              <button disabled={loading} onClick={handleLogout} className="px-4 py-2 font-semibold shadow bg-white focus:shadow-outline hover:bg-green-300 transition-all ease-out text-base uppercase whitespace-nowrap">
+              <button disabled={loading} onClick={handleLogout} className="px-4 py-2 font-semibold shadow bg-white focus:shadow-outline hover:bg-green-300 transition-all text-myDarkBlue  ease-out text-base uppercase whitespace-nowrap">
                 Log out
               </button>
 
           ) : (
             <Link href="/signup">
-              <span className="px-4 py-2 font-semibold shadow bg-white focus:shadow-outline hover:bg-green-300 transition-all ease-out text-base uppercase whitespace-nowrap">
+              <span className="px-4 py-2 font-semibold shadow bg-white focus:shadow-outline hover:bg-myLightBlue transition-all ease-out text-base uppercase whitespace-nowrap  text-myDarkBlue">
                 Sign up
               </span>
             </Link>

@@ -1,5 +1,6 @@
 import { initializeApp } from "firebase/app";
 import {getAuth,createUserWithEmailAndPassword,onAuthStateChanged, signOut, signInWithEmailAndPassword} from 'firebase/auth'
+import {getFirestore,collection,getDocs,addDoc} from 'firebase/firestore'
 import { useEffect, useState } from "react";
 
 
@@ -21,11 +22,24 @@ const firebaseConfig = {
 
   const app = initializeApp(firebaseConfig);
   const auth = getAuth();
-
+  const db = getFirestore();
+  const colRef = collection(db,"userCalRequirements")
 export default app;
 
 export const signup = (email,password)=>{
- return createUserWithEmailAndPassword(auth,email,password)
+  
+ createUserWithEmailAndPassword(auth,email,password)
+   .then(function onFulfilled(value){
+    initUserRequirement(value.user.uid);
+   },function onRejected(reaseon){
+    console.log(reaseon);
+   })
+}
+
+export const initUserRequirement = (id)=>{
+  addDoc(colRef,{
+    userId:id,dailyRequirement:0
+  })
 }
 
 export const logout = () =>{
