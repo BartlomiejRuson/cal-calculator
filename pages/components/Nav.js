@@ -2,7 +2,7 @@ import Link from "next/link";
 import React,{useState} from "react";
 import { logout, useAuth } from "../../firebase";
 function Nav({ dayTotal }) {
-  const currentUser = useAuth();
+  const {currentUser} = useAuth();
   const [loading,setLoading] = useState(false);
   const handleLogout = async () =>{
     setLoading(true);
@@ -40,24 +40,31 @@ function Nav({ dayTotal }) {
         </span>
       </div>
 
-      <div className="absolute flex justify-between top-1/2 right-0  -translate-y-1/2 font-semibold text-lg">
-
-        <div className="mr-2 mx-auto w-24 flex items-center cursor-pointer">
+   
+<div className="absolute top-1/2 -translate-y-1/2 right-0 mr-1">
+      
           {currentUser ? (
-
-              <button disabled={loading} onClick={handleLogout} className="px-4 py-2 font-semibold shadow bg-white focus:shadow-outline hover:bg-green-300 transition-all text-myDarkBlue  ease-out text-base uppercase whitespace-nowrap">
+              <div className="flex">
+                <Link href='/myprofile'>
+<button disabled={loading}  className="px-4 py-2 font-semibold shadow bg-white focus:shadow-outline hover:bg-myLightBlue transition-all text-myDarkBlue  ease-out text-base uppercase whitespace-nowrap mx-1">
+                My profile
+              </button>
+              </Link>
+<button disabled={loading} onClick={handleLogout} className="px-4 py-2 font-semibold shadow bg-white focus:shadow-outline hover:bg-myLightBlue transition-all text-myDarkBlue  ease-out text-base uppercase whitespace-nowrap mx-1">
                 Log out
               </button>
+              </div>
+
 
           ) : (
             <Link href="/signup">
-              <span className="px-4 py-2 font-semibold shadow bg-white focus:shadow-outline hover:bg-myLightBlue transition-all ease-out text-base uppercase whitespace-nowrap  text-myDarkBlue">
+              <button disabled={loading} className="px-4 py-2 font-semibold shadow bg-white focus:shadow-outline hover:bg-myLightBlue transition-all ease-out text-base uppercase whitespace-nowrap  text-myDarkBlue">
                 Sign up
-              </span>
+              </button>
             </Link>
           )}
-        </div>
-      </div>
+</div>
+
     </nav>
   );
 }

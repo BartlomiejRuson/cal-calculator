@@ -44,6 +44,8 @@ export const initUserRequirement = (id)=>{
 
 export const logout = () =>{
   signOut(auth);
+  console.log("first")
+  console.log(auth);
 }
 
 export const signin = (email,password) =>{
@@ -52,11 +54,22 @@ export const signin = (email,password) =>{
 
 export const useAuth = ()=>{
   const [currentUser,setCurrentUser] = useState();
+  const [dailyRequirement,setDailyRequirement] = useState();
   useEffect(()=>{
     const unsub = onAuthStateChanged(auth,(user)=>{
     setCurrentUser(user);
+    getDocs(colRef).then(snapshot=>{
+
+      snapshot.docs.forEach(doc=>{
+        if(user!=null && doc.data().userId == user.uid){ 
+          setDailyRequirement(doc.data().dailyRequirement);
+        }
+  
+     })
+  
+    })
     })
     return unsub;
   },[])
-  return currentUser
+  return {currentUser,dailyRequirement}
 }
