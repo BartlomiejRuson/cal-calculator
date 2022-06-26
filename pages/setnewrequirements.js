@@ -1,8 +1,52 @@
 import Head from "next/head";
 import Link from "next/link";
-import React from "react";
+import { useRouter } from "next/router";
+import React, { useState } from "react";
+import { changeDailyRequirement } from "../firebase";
 
 function SetNewRequirements() {
+  const Router = useRouter();
+  const [age, setAge] = useState();
+  const [sex, setSex] = useState();
+  const [weight, setWeight] = useState();
+  const [height, setHeight] = useState();
+  const [activity, setActivity] = useState();
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const multiplier = 1.2;
+    switch (activity) {
+      case "none":
+        multiplier = 1.2;
+        break;
+      case "light":
+        multiplier = 1.375;
+        break;
+      case "high":
+        multiplier = 1.55;
+        break;
+      case "extreme":
+        multiplier = 1.8;
+        break;
+      default:
+        multiplier = 1.2;
+        break;
+    }
+
+    if (sex == Female) {
+      const bmr = Math.round(
+        (447.6 + 9.3 * weight + 3 * height - 4.3 * age) * multiplier
+      );
+
+      changeDailyRequirement(bmr).then(()=>{Router.push("/")}      );
+;
+    } else {
+      const bmr = Math.round(
+        (88.4 + 13.4 * weight + 4.8 * height - 5.7 * age) * multiplier
+      );
+
+      changeDailyRequirement(bmr).then(()=>{Router.push("/")}      );
+    }
+  };
   return (
     <div className="w-screen h-screen bg-myDarkBlue ">
       <Head>
@@ -16,38 +60,91 @@ function SetNewRequirements() {
         </span>
       </Link>
       <div className="bg-white w-5/6 h-96 left-1/2 -translate-x-1/2 -translate-y-1/2 absolute top-1/2">
-        <form className="h-full justify-around flex flex-col items-center">
+        <form
+          className="h-full justify-around flex flex-col items-center"
+          onSubmit={handleSubmit}
+        >
           <fieldset className="flex gap-5">
             <h2>Age:</h2>
-            <input type="number" name="Age" id="Age" />
+            <input
+              type="number"
+              name="Age"
+              id="Age"
+              onChange={(e) => {
+                setAge(e.target.value);
+              }}
+            />
             <label htmlFor="Age">Years</label>
           </fieldset>
           <fieldset className="flex gap-5">
             <h2>Sex:</h2>
             <div>
-              <input type="radio" name="Sex" id="Male" value="Male" />
+              <input
+                type="radio"
+                name="Sex"
+                id="Male"
+                value="Male"
+                onChange={(e) => {
+                  setSex(e.target.value);
+                }}
+              />
               <label htmlFor="Male"> Male</label>
             </div>
             <div>
-              <input type="radio" name="Sex" id="Female" value="Female" />
+              <input
+                type="radio"
+                name="Sex"
+                id="Female"
+                value="Female"
+                onChange={(e) => {
+                  setSex(e.target.value);
+                }}
+              />
               <label htmlFor="Female"> Female</label>
             </div>
           </fieldset>
           <fieldset className="flex gap-5">
+            <h2>Height:</h2>
+            <input
+              type="number"
+              name="Height"
+              id="Height"
+              onChange={(e) => {
+                setHeight(e.target.value);
+              }}
+            />
+            <label htmlFor="Height">cm</label>
+          </fieldset>
+          <fieldset className="flex gap-5">
             <h2>Weight:</h2>
-            <input type="number" name="Weight" id="Weight" />
+            <input
+              type="number"
+              name="Weight"
+              id="Weight"
+              onChange={(e) => {
+                setWeight(e.target.value);
+              }}
+            />
             <label htmlFor="Weight">kg</label>
           </fieldset>
-<fieldset className="flex gap-5">
+          <fieldset className="flex gap-5">
             <h2>Activity:</h2>
-            <select id="Activity" name="Activity">
-    <option value="none">No exercise and non physical work</option>
-    <option value="light">1-3 training session per weak</option>
-    <option value="hight">4-6 training session per week</option>
-    <option value="extreme">multiple training sessions, or physical job</option>
-  </select>
-</fieldset>
-
+            <select
+              id="Activity"
+              name="Activity"
+              onChange={(e) => {
+                setActivity(e.target.value);
+              }}
+            >
+              <option value="none">No exercise and non physical work</option>
+              <option value="light">1-3 training session per weak</option>
+              <option value="high">4-6 training session per week</option>
+              <option value="extreme">
+                multiple training sessions, or physical job
+              </option>
+            </select>
+          </fieldset>
+          <button type="submit">SET</button>
         </form>
       </div>
     </div>

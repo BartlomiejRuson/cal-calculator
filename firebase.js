@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import {getAuth,createUserWithEmailAndPassword,onAuthStateChanged, signOut, signInWithEmailAndPassword} from 'firebase/auth'
-import {getFirestore,collection,getDocs,addDoc} from 'firebase/firestore'
+import {getFirestore,collection,getDocs,addDoc,updateDoc,doc} from 'firebase/firestore'
 import { useEffect, useState } from "react";
 
 
@@ -72,4 +72,16 @@ export const useAuth = ()=>{
     return unsub;
   },[])
   return {currentUser,dailyRequirement}
+}
+export const changeDailyRequirement = (bmr) =>{
+  getDocs(colRef).then(snapshot=>{
+    snapshot.docs.forEach(document=>{
+      if(auth.currentUser.uid==document.data().userId){
+       const docRef = doc(db,"userCalRequirements",document.id)
+        updateDoc(docRef,{
+          dailyRequirement:bmr
+        })
+      }
+    })
+  })
 }

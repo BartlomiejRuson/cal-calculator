@@ -22,7 +22,7 @@ function SignIn() {
   };
 
   useEffect(() => {
-    if (currentUser) {Router.push("/");console.log(currentUser)}
+    if (currentUser) {Router.push("/");}
   }, [currentUser]);
 
   return (

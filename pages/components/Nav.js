@@ -2,7 +2,7 @@ import Link from "next/link";
 import React,{useState} from "react";
 import { logout, useAuth } from "../../firebase";
 function Nav({ dayTotal }) {
-  const {currentUser} = useAuth();
+  const {currentUser,dailyRequirement} = useAuth();
   const [loading,setLoading] = useState(false);
   const handleLogout = async () =>{
     setLoading(true);
@@ -17,7 +17,7 @@ function Nav({ dayTotal }) {
   return (
     <nav className="sticky top-0 bg-myDarkBlue py-1 border-b border-black text-white">
       <div className="flex  justify-items-center items-center justify-center">
-                <h2 className=" absolute left-10 md:left-1/4 md:-translate-x-12 text-lg whitespace-nowrap text-center">Today&apos;s total: <br/> {dayTotal}</h2>
+                <h2 className=" absolute left-10 md:left-1/4 md:-translate-x-12 text-lg whitespace-nowrap text-center">Today&apos;s total: <br/> {dayTotal}{dailyRequirement?(<span> / {dailyRequirement}</span>):(<span></span>)}</h2>
         <span className="px-4 text-xl font-semibold hidden md:block">
           Calorie
         </span>

@@ -5,7 +5,7 @@ import {app} from '../firebase'
 import Nav from "./components/Nav";
 
 export default function Home() {
-
+  const [loading,setLoading] = useState(false);
   const [breakfast, setBre] = useState([]);
   const [lunch, setLun] = useState([]);
   const [dinner, setDin] = useState([]);
@@ -125,6 +125,7 @@ export default function Home() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     const options = {
       method: "GET",
       headers: {
@@ -154,10 +155,12 @@ export default function Home() {
           kcals: response.parsed[0].food.nutrients.ENERC_KCAL,
         });
         setIngredient("");
+        setLoading(false);
       })
       .catch((err) => {
         console.error(err);
         setErrorText("you need to type in specific food name");
+        setLoading(false);
       });
   };
   return (
@@ -328,6 +331,7 @@ export default function Home() {
       </main>
 
       <form
+      
         className="myform text-center bg-myDarkBlue border-t border-black text-white"
         onSubmit={handleSubmit}
         id="form"
@@ -409,6 +413,7 @@ export default function Home() {
 
         <button
           type="submit"
+          disabled={loading}
           className="px-4 py-2 my-2 text-myDarkBlue font-bold shadow bg-white focus:shadow-outline hover:bg-myLightBlue transition-all ease-out"
         >
           ADD
