@@ -1,12 +1,14 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect, useContext } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { signin, useAuth } from "../firebase";
 import Head from 'next/head'
+import { userContext } from "../src/userContext";
 function SignIn() {
   const Router = useRouter();
-  const {currentUser} = useAuth();
+  const {user} = useContext(userContext);
   const emailRef = useRef();
+  useAuth();
   const passwordRef = useRef();
   const [loading, setLoading] = useState(false);
   const handleSignIn = async (e) => {
@@ -14,16 +16,17 @@ function SignIn() {
     e.preventDefault();
     try {
       await signin(emailRef.current.value, passwordRef.current.value);
+
     } catch (err) {
       alert(err);
     }
-
+    console.log(user)
     setLoading(false);
   };
 
   useEffect(() => {
-    if (currentUser) {Router.push("/");}
-  }, [currentUser]);
+    if (user) {Router.push("/");}
+  }, [user]);
 
   return (
     <div className="max-w-screen flex items-center justify-center h-screen bg-myDarkBlue text-white">

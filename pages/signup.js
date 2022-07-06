@@ -1,13 +1,14 @@
-import React, { useRef,useState,useEffect } from "react";
+import React, { useRef,useState,useEffect, useContext } from "react";
 import {useRouter} from 'next/router'
 import Link from "next/link";
-import { signup ,useAuth,initUserRequirement} from "../firebase";
+import { signup} from "../firebase";
 import Head from 'next/head'
+import { userContext } from "../src/userContext";
 function SignUp() {
   const emailRef = useRef();
   const passwordRef = useRef();
   const [loading,setLoading] = useState(false);
-  const {currentUser} = useAuth();
+  const {user} = useContext(userContext);
   const Router = useRouter();
   const handleSubmit = async (e) => {
 
@@ -28,12 +29,12 @@ function SignUp() {
   };
   useEffect(() => {
     
-  if(currentUser){
+  if(user){
     Router.push("/");
 
   }
 
-  }, [currentUser])
+  }, [user])
   
   return (
     <div className="max-w-screen flex items-center justify-center h-screen bg-myDarkBlue text-white">
@@ -67,7 +68,7 @@ function SignUp() {
 
           <button
             type="submit"
-            disabled={loading || currentUser}
+            disabled={loading || user}
             className="px-4 py-2 mt-16 mx-auto  font-bold shadow bg-white focus:shadow-outline hover:bg-myLightBlue transition-all ease-out text-myDarkBlue"
           >
             SIGN UP

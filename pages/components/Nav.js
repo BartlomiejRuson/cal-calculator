@@ -1,13 +1,19 @@
 import Link from "next/link";
-import React,{useState} from "react";
+import React,{useState, useContext} from "react";
 import { logout, useAuth } from "../../firebase";
+import {useRouter} from 'next/router'
+import { userContext } from "../../src/userContext";
 function Nav({ dayTotal }) {
-  const {currentUser,dailyRequirement} = useAuth();
+  const {user,dailyRequirement} = useContext(userContext);
+  useAuth();
   const [loading,setLoading] = useState(false);
+  const Router = useRouter();
   const handleLogout = async () =>{
     setLoading(true);
     try{
-      await logout();
+      await logout().then(()=>{
+        Router.push("/signin")
+      });
     } catch(err) {
       console.error(err)
     }
@@ -43,7 +49,7 @@ function Nav({ dayTotal }) {
    
 <div className="absolute top-1/2 -translate-y-1/2 right-0 mr-1">
       
-          {currentUser ? (
+          {user ? (
               <div className="flex">
                 <Link href='/myprofile'>
 <button disabled={loading}  className="px-4 py-2 font-semibold shadow bg-white focus:shadow-outline hover:bg-myLightBlue transition-all text-myDarkBlue  ease-out text-base uppercase whitespace-nowrap mx-1">

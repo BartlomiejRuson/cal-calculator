@@ -1,17 +1,20 @@
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
-import { changeDailyRequirement } from "../firebase";
+import React, { useContext, useState } from "react";
+import { changeDailyRequirement, useAuth } from "../firebase";
+import { userContext } from "../src/userContext";
 
 function SetNewRequirements() {
+  useAuth();
+  const {setDailyRequirement} = useContext(userContext);
   const Router = useRouter();
   const [age, setAge] = useState();
   const [sex, setSex] = useState();
   const [weight, setWeight] = useState();
   const [height, setHeight] = useState();
   const [activity, setActivity] = useState();
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const multiplier = 1.2;
     switch (activity) {
@@ -32,19 +35,33 @@ function SetNewRequirements() {
         break;
     }
 
-    if (sex == Female) {
+    if (sex == "Female") {
       const bmr = Math.round(
         (447.6 + 9.3 * weight + 3 * height - 4.3 * age) * multiplier
       );
 
-      changeDailyRequirement(bmr).then(()=>{Router.push("/")}      );
-;
+      try {
+        await changeDailyRequirement(bmr).then(() => {
+          setDailyRequirement(bmr)
+          console.log("i am a female")
+          Router.push("/");
+        });
+      } catch (err) {
+        console.error(err);
+      }
     } else {
       const bmr = Math.round(
         (88.4 + 13.4 * weight + 4.8 * height - 5.7 * age) * multiplier
       );
-
-      changeDailyRequirement(bmr).then(()=>{Router.push("/")}      );
+      try {
+        await changeDailyRequirement(bmr).then(() => {
+          setDailyRequirement(bmr)
+          console.log("i am a male")
+          Router.push("/");
+        });
+      } catch (err) {
+        console.error(err);
+      }
     }
   };
   return (

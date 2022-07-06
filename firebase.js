@@ -1,7 +1,10 @@
 import { initializeApp } from "firebase/app";
 import {getAuth,createUserWithEmailAndPassword,onAuthStateChanged, signOut, signInWithEmailAndPassword} from 'firebase/auth'
 import {getFirestore,collection,getDocs,addDoc,updateDoc,doc} from 'firebase/firestore'
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { userContext } from "./src/userContext";
+
+
 
 
 const firebaseConfig = {
@@ -29,9 +32,9 @@ export default app;
 export const signup = (email,password)=>{
   
  createUserWithEmailAndPassword(auth,email,password)
-   .then(function onFulfilled(value){
+   .then((value)=>{
     initUserRequirement(value.user.uid);
-   },function onRejected(reaseon){
+   },(reaseon)=>{
     console.log(reaseon);
    })
 }
@@ -42,26 +45,25 @@ export const initUserRequirement = (id)=>{
   })
 }
 
-export const logout = () =>{
+export const logout = async () =>{
   signOut(auth);
-  console.log("first")
   console.log(auth);
 }
 
 export const signin = (email,password) =>{
-  return signInWithEmailAndPassword(auth,email,password)
+ return signInWithEmailAndPassword(auth,email,password);
 }
 
 export const useAuth = ()=>{
-  const [currentUser,setCurrentUser] = useState();
-  const [dailyRequirement,setDailyRequirement] = useState();
+  const {user,setUser,dailyRequirement,setDailyRequirement} = useContext(userContext);
   useEffect(()=>{
     const unsub = onAuthStateChanged(auth,(user)=>{
-    setCurrentUser(user);
+    setUser(user);
     getDocs(colRef).then(snapshot=>{
 
       snapshot.docs.forEach(doc=>{
         if(user!=null && doc.data().userId == user.uid){ 
+          console.log("heyyy")
           setDailyRequirement(doc.data().dailyRequirement);
         }
   
@@ -71,14 +73,15 @@ export const useAuth = ()=>{
     })
     return unsub;
   },[])
-  return {currentUser,dailyRequirement}
+  return {user,dailyRequirement}
 }
-export const changeDailyRequirement = (bmr) =>{
+export const changeDailyRequirement = async (bmr) =>{
   getDocs(colRef).then(snapshot=>{
     snapshot.docs.forEach(document=>{
       if(auth.currentUser.uid==document.data().userId){
        const docRef = doc(db,"userCalRequirements",document.id)
-        updateDoc(docRef,{
+
+      updateDoc(docRef,{
           dailyRequirement:bmr
         })
       }

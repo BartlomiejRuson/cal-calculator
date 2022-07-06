@@ -1,7 +1,6 @@
 import Head from "next/head";
-import { useState, useEffect } from "react";
+import { useState, useEffect} from "react";
 import uuid from "react-uuid";
-import {app} from '../firebase'
 import Nav from "./components/Nav";
 
 export default function Home() {
@@ -23,6 +22,7 @@ export default function Home() {
     dish: "",
     kcals: "",
   });
+
 
   const hideButton = async () => {
     const myForm = document.querySelector(".myform");
@@ -51,7 +51,6 @@ export default function Home() {
         setBre(newBreakfast);
         setBreakfastTotal(breakfastTotal - kcals);
         setDayTotal(dayTotal - kcals);
-        console.log(app)
         break;
       case "lunch":
         const newLunch = lunch.filter((item) => {
