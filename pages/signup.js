@@ -1,12 +1,13 @@
 import React, { useRef,useState,useEffect, useContext } from "react";
 import {useRouter} from 'next/router'
 import Link from "next/link";
-import { signup} from "../firebase";
+import { signup, useAuth} from "../firebase";
 import Head from 'next/head'
 import { userContext } from "../src/userContext";
 function SignUp() {
   const emailRef = useRef();
   const passwordRef = useRef();
+  useAuth();
   const [loading,setLoading] = useState(false);
   const {user} = useContext(userContext);
   const Router = useRouter();
