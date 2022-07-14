@@ -20,7 +20,7 @@ function SignIn() {
     } catch (err) {
       alert(err);
     }
-    console.log(user)
+
     setLoading(false);
   };
 

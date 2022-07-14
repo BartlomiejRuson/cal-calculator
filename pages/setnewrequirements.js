@@ -43,7 +43,7 @@ function SetNewRequirements() {
       try {
         await changeDailyRequirement(bmr).then(() => {
           setDailyRequirement(bmr)
-          console.log("i am a female")
+
           Router.push("/");
         });
       } catch (err) {
