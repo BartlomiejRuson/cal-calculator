@@ -1,9 +1,9 @@
 import Link from "next/link";
 import React, { useState, useContext,useEffect } from "react";
-import { logout, useAuth } from "../../firebase";
+import { logout } from "../../firebase";
 import { useRouter } from "next/router";
 import { userContext } from "../../src/userContext";
-function Nav({ dayTotal,clearArrays }) {
+function Nav({ dayTotal,setDayTotal,clearArrays }) {
   const { user, dailyRequirement } = useContext(userContext);
   const [loading, setLoading] = useState(false);
   const Router = useRouter();
@@ -11,6 +11,7 @@ function Nav({ dayTotal,clearArrays }) {
     setLoading(true);
     try {
       await logout().then(() => {
+        setDayTotal(0);
         Router.push("/signin");
       });
     } catch (err) {
