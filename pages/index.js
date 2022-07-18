@@ -147,7 +147,7 @@ export default function Home({ myKey }) {
         "X-RapidAPI-Key": apiKey,
       },
     };
-    if (ingredient) {
+    if (ingredient&&apiKey) {
     }
     fetch(
       "https://edamam-food-and-grocery-database.p.rapidapi.com/parser?ingr=" +
