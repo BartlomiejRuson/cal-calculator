@@ -63,7 +63,6 @@ export const useAuth = ()=>{
 
       snapshot.docs.forEach(doc=>{
         if(user!=null && doc.data().userId == user.uid){ 
-          console.log("heyyy")
           setDailyRequirement(doc.data().dailyRequirement);
         }
   

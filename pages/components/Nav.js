@@ -3,16 +3,16 @@ import React, { useState, useContext,useEffect } from "react";
 import { logout } from "../../firebase";
 import { useRouter } from "next/router";
 import { userContext } from "../../src/userContext";
-function Nav({ dayTotal,setDayTotal,clearArrays }) {
-  const { user, dailyRequirement } = useContext(userContext);
+function Nav({ dayTotal,clearArrays }) {
+  const { user,setUser, dailyRequirement,setDailyRequirement } = useContext(userContext);
   const [loading, setLoading] = useState(false);
-  const Router = useRouter();
+
   const handleLogout = async () => {
     setLoading(true);
     try {
       await logout().then(() => {
-        setDayTotal(0);
-        Router.push("/signin");
+        setDailyRequirement(0);
+        setUser(null)
       });
     } catch (err) {
       console.error(err);
@@ -52,7 +52,7 @@ function Nav({ dayTotal,setDayTotal,clearArrays }) {
             d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"
           />
         </svg>
-        <span className="px-4 text-xl font-semibold hidden md:block">
+        <span className="px-4 text-xl font-semibold hidden md:block" >
           Calculator
         </span>
       </div>

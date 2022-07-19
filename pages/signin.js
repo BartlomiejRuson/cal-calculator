@@ -25,7 +25,10 @@ function SignIn() {
   };
 
   useEffect(() => {
-    if (user) {Router.push("/");}
+    if (user) {
+      console.log("jest user pushuje do glownej")
+      console.log(user)
+      Router.push("/");}
   }, [user]);
 
   return (

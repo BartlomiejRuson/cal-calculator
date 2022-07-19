@@ -31,6 +31,7 @@ function SignUp() {
   useEffect(() => {
     
   if(user){
+    console.log("jest user pushuje do glownej")
     Router.push("/");
 
   }
