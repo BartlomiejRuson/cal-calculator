@@ -1,8 +1,8 @@
 import Link from "next/link";
-import React, { useState, useContext,useEffect } from "react";
-import { logout } from "../../firebase";
-import { useRouter } from "next/router";
-import { userContext } from "../../src/userContext";
+import React, { useState, useContext} from "react";
+import { logout } from "../firebase";
+
+import { userContext } from "../src/userContext";
 function Nav({ dayTotal,clearArrays }) {
   const { user,setUser, dailyRequirement,setDailyRequirement } = useContext(userContext);
   const [loading, setLoading] = useState(false);

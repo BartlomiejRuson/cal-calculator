@@ -153,7 +153,7 @@ function SetNewRequirements() {
               }}
             >
               <option value="none">No exercise and non physical work</option>
-              <option value="light">1-3 training session per weak</option>
+              <option value="light">1-3 training session per week</option>
               <option value="high">4-6 training session per week</option>
               <option value="extreme">
                 multiple training sessions, or physical job

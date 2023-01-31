@@ -1,20 +1,32 @@
 import Head from "next/head";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
 import uuid from "react-uuid";
-import Nav from "./components/Nav";
-
+import MealDetail from "../components/MealDetail";
+import Nav from "../components/Nav";
+import { mealContext } from "../src/mealContext";
 export default function Home({ myKey }) {
   const apiKey = myKey.toString();
   const [loading, setLoading] = useState(false);
-  const [breakfast, setBreakfast] = useState([]);
-  const [lunch, setLunch] = useState([]);
-  const [dinner, setDinner] = useState([]);
-  const [snacks, setSnacks] = useState([]);
-  const [breakfastTotal, setBreakfastTotal] = useState(0);
-  const [lunchTotal, setLunchTotal] = useState(0);
-  const [dinnerTotal, setDinnerTotal] = useState(0);
-  const [snacksTotal, setSnacksTotal] = useState(0);
-  const [dayTotal, setDayTotal] = useState(0);
+  const {
+    breakfast,
+    lunch,
+    dinner,
+    snacks,
+    breakfastTotal,
+    lunchTotal,
+    dinnerTotal,
+    snacksTotal,
+    dayTotal,
+    setBreakfast,
+    setLunch,
+    setDinner,
+    setSnacks,
+    setBreakfastTotal,
+    setLunchTotal,
+    setDayTotal,
+    setDinnerTotal,
+    setSnacksTotal,
+  } = useContext(mealContext);
   const [ingredient, setIngredient] = useState("");
   const [dish, setDish] = useState("");
   const [errorText, setErrorText] = useState("");
@@ -36,60 +48,9 @@ export default function Home({ myKey }) {
     setDayTotal(0);
   };
 
-  // this button appears on the screen when you are using mobile view
-  const hideButton = async () => {
-    const myForm = document.querySelector(".myform");
-    const myButton = document.querySelector(".plusButton");
-    const myFormPosition = myForm.getBoundingClientRect().top;
-    const screenPosition = window.innerHeight;
-    if (myFormPosition < screenPosition - 60) {
-      myButton.classList.add("hidden");
-    } else {
-      myButton.classList.remove("hidden");
-    }
-  };
-
-  if (typeof window === !"undefined") {
+  if (typeof window ==! "undefined") {
     window.addEventListener("scroll", hideButton);
   }
-
-  const deleteFood = (id, dish, kcals) => {
-    switch (dish) {
-      case "breakfast":
-        const newBreakfast = breakfast.filter((item) => {
-          return item.id != id;
-        });
-        setBreakfast(newBreakfast);
-        setBreakfastTotal(breakfastTotal - kcals);
-        setDayTotal(dayTotal - kcals);
-        break;
-      case "lunch":
-        const newLunch = lunch.filter((item) => {
-          return item.id != id;
-        });
-        setLunch(newLunch);
-        setLunchTotal(lunchTotal - kcals);
-        setDayTotal(dayTotal - kcals);
-        break;
-      case "dinner":
-        const newDinner = dinner.filter((item) => {
-          return item.id != id;
-        });
-        setDinner(newDinner);
-        setDinnerTotal(dinnerTotal - kcals);
-        setDayTotal(dayTotal - kcals);
-        break;
-      case "snacks":
-        const newSnacks = snacks.filter((item) => {
-          return item.id != id;
-        });
-        setSnacks(newSnacks);
-        setSnacksTotal(snacksTotal - kcals);
-        setDayTotal(dayTotal - kcals);
-        break;
-      default:
-    }
-  };
 
   //this useEffect is triggered after the form with new food is submited
   useEffect(() => {
@@ -138,7 +99,6 @@ export default function Home({ myKey }) {
   //  then it sets the currentFood variable which triggers useEffect hook.
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     setLoading(true);
     const options = {
       method: "GET",
@@ -147,7 +107,7 @@ export default function Home({ myKey }) {
         "X-RapidAPI-Key": apiKey,
       },
     };
-    if (ingredient&&apiKey) {
+    if (ingredient && apiKey) {
     }
     fetch(
       "https://edamam-food-and-grocery-database.p.rapidapi.com/parser?ingr=" +
@@ -189,144 +149,54 @@ export default function Home({ myKey }) {
       <main className="flex flex-col  md:flex-row md:justify-around text-center bg-gray-100 md:py-5">
         <div className="w-full border mx-1  border-gray-300">
           <h2 className="text-xl font-semibold">Breakfast</h2>
-          <div className="h-72 overflow-y-scroll scrollbar">
-            {breakfast.map((item) => (
-              <div
-                className="flex gap-2 my-1  py-2 max-h-full justify-center "
-                key={item.id}
-              >
-                <p className="border-r border-black pr-2">{item.name}</p>
-                <p className="border-r border-black pr-2">{item.kcals} kcals</p>
-                <div
-                  className="cursor-pointer"
-                  onClick={() => {
-                    deleteFood(item.id, "breakfast", item.kcals);
-                  }}
-                >
-                  {" "}
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-6 w-6 text-red-600"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth={2}
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
-                    />
-                  </svg>
-                </div>
-              </div>
-            ))}
-          </div>
+          <MealDetail
+            data={breakfast}
+            dish={"breakfast"}
+            setDayTotal={setDayTotal}
+            dayTotal={dayTotal}
+            setMealTotal={setBreakfastTotal}
+            setMeal={setBreakfast}
+          />
           <p className="font-semibold text-lg mt-3">Total: {breakfastTotal}</p>
         </div>
         <div className="w-full border mx-1 border-gray-300">
           <h2 className="text-xl font-semibold">Lunch</h2>
-          <div className="h-72 overflow-y-scroll scrollbar">
-            {lunch.map((item) => (
-              <div className="flex gap-2 py-2  justify-center" key={item.id}>
-                <p className="border-r border-black pr-2">{item.name}</p>
-                <p className="border-r border-black pr-2">{item.kcals} kcals</p>
-                <div
-                  className="cursor-pointer"
-                  onClick={() => {
-                    deleteFood(item.id, "lunch", item.kcals);
-                  }}
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-6 w-6 text-red-600"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth={2}
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
-                    />
-                  </svg>
-                </div>
-              </div>
-            ))}
-          </div>
+          <MealDetail
+            data={lunch}
+            dish={"lunch"}
+            setDayTotal={setDayTotal}
+            dayTotal={dayTotal}
+            setMealTotal={setLunchTotal}
+            setMeal={setLunch}
+          />
           <p className="font-semibold text-lg mt-3">Total: {lunchTotal}</p>
         </div>
         <div className="w-full border mx-1 border-gray-300">
           <h2 className="text-xl font-semibold">Dinner</h2>
-          <div className="h-72 overflow-y-scroll scrollbar">
-            {dinner.map((item) => (
-              <div className="flex gap-2 py-2 justify-center" key={item.id}>
-                <p className="border-r border-black pr-2">{item.name}</p>
-                <p className="border-r border-black pr-2">{item.kcals} kcals</p>
-                <div
-                  className="cursor-pointer"
-                  onClick={() => {
-                    deleteFood(item.id, "dinner", item.kcals);
-                  }}
-                >
-                  {" "}
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-6 w-6 text-red-600"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth={2}
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
-                    />
-                  </svg>
-                </div>
-              </div>
-            ))}
-          </div>
+          <MealDetail
+            data={dinner}
+            dish={"dinner"}
+            setDayTotal={setDayTotal}
+            dayTotal={dayTotal}
+            setMealTotal={setDinnerTotal}
+            setMeal={setDinner}
+          />
           <p className="font-semibold text-lg mt-3">Total: {dinnerTotal}</p>
         </div>
         <div className="w-full border mx-1 border-gray-300">
           <h2 className="text-xl font-semibold">Snacks</h2>
-          <div className="h-72 overflow-y-scroll scrollbar">
-            {snacks.map((item) => (
-              <div className="flex gap-2 py-2 justify-center" key={item.id}>
-                <p className="border-r border-black pr-2">{item.name}</p>
-                <p className="border-r border-black pr-2">{item.kcals} kcals</p>
-                <div
-                  className="cursor-pointer"
-                  onClick={() => {
-                    deleteFood(item.id, "snacks", item.kcals);
-                  }}
-                >
-                  {" "}
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-6 w-6 text-red-600"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth={2}
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
-                    />
-                  </svg>
-                </div>
-              </div>
-            ))}
-          </div>
+          <MealDetail
+            data={snacks}
+            dish={"snacks"}
+            setDayTotal={setDayTotal}
+            dayTotal={dayTotal}
+            setMealTotal={setSnacksTotal}
+            setMeal={setSnacks}
+          />
           <p className="font-semibold text-lg mt-3">Total: {snacksTotal}</p>
         </div>
 
-        <div className="fixed plusButton hover:scale-110 transition-all ease-out cursor-pointer md:hidden right-14 bottom-14">
+        <div className="fixed  hover:scale-110 transition-all ease-out cursor-pointer md:hidden right-14 bottom-14">
           <a href="#form">
             {" "}
             <svg
@@ -346,7 +216,7 @@ export default function Home({ myKey }) {
       </main>
 
       <form
-        className="myform text-center bg-myDarkBlue border-t border-black text-white"
+        className="text-center bg-myDarkBlue border-t border-black text-white"
         onSubmit={handleSubmit}
         id="form"
       >
