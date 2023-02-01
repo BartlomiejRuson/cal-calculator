@@ -1,4 +1,3 @@
-https://cal-calculator-portfolio-project.netlify.app/
 
 ### Calorie Calculator
 
