@@ -7,4 +7,5 @@ https://cal-calculator-portfolio-project.netlify.app/
 ### Technologies
 -Next.js <br>
 -edamam food API <br>
--firebase
+-firebase <br>
+-tailwindcss
