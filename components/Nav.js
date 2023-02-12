@@ -1,12 +1,12 @@
 import Link from "next/link";
 import React, { useState, useContext} from "react";
-import { logout } from "../firebase";
+import { logout, useAuth } from "../firebase";
 
 import { userContext } from "../src/userContext";
 function Nav({ dayTotal,clearArrays }) {
   const { user,setUser, dailyRequirement,setDailyRequirement } = useContext(userContext);
   const [loading, setLoading] = useState(false);
-
+  useAuth();
   const handleLogout = async () => {
     setLoading(true);
     try {
@@ -23,8 +23,8 @@ function Nav({ dayTotal,clearArrays }) {
   
 
   return (
-    <nav className="sticky top-0 bg-myDarkBlue py-1 border-b border-black text-white">
-      <div className="flex  justify-items-center items-center justify-center">
+    <nav className="sticky top-0 bg-myBlue py-1 shadow-xl text-white">
+      <div className="flex  justify-items-center items-center justify-center p-3">
         <div className=" absolute left-10 md:left-1/4 md:-translate-x-12 text-lg whitespace-nowrap text-center flex flex-col">
           
           {dailyRequirement ? (
@@ -80,7 +80,7 @@ function Nav({ dayTotal,clearArrays }) {
           <Link href="/signup">
             <button
               disabled={loading}
-              className="px-4 py-2 font-semibold shadow bg-white focus:shadow-outline hover:bg-myLightBlue transition-all ease-out text-base uppercase whitespace-nowrap  text-myDarkBlue"
+              className="px-4 mr-2 py-2 font-semibold shadow bg-white focus:shadow-outline hover:bg-myLightBlue transition-all ease-out text-base uppercase whitespace-nowrap  text-myDarkBlue"
             >
               Sign up
             </button>
