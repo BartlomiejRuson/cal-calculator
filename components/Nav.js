@@ -23,7 +23,7 @@ function Nav({ dayTotal,clearArrays }) {
   
 
   return (
-    <nav className="sticky top-0 bg-myBlue py-1 shadow-xl text-white">
+    <nav className="sticky top-0 bgGradient py-1 shadow-xl text-white">
       <div className="flex  justify-items-center items-center justify-center p-3">
         <div className=" absolute left-10 md:left-1/4 md:-translate-x-12 text-lg whitespace-nowrap text-center flex flex-col">
           
@@ -63,7 +63,7 @@ function Nav({ dayTotal,clearArrays }) {
             <Link href="/myprofile">
               <button
                 disabled={loading}
-                className="px-4 py-2 font-semibold shadow bg-white focus:shadow-outline hover:bg-myLightBlue transition-all text-myDarkBlue  ease-out text-base uppercase whitespace-nowrap mx-1"
+                className="px-2 py-1 md:px-4 md:py-2 font-semibold shadow bg-white focus:shadow-outline hover:bg-myLightBlue transition-all text-myDarkBlue  ease-out text-base uppercase whitespace-nowrap mx-1"
               >
                 My profile
               </button>
@@ -71,7 +71,7 @@ function Nav({ dayTotal,clearArrays }) {
             <button
               disabled={loading}
               onClick={handleLogout}
-              className="px-4 py-2 font-semibold shadow bg-white focus:shadow-outline hover:bg-myLightBlue transition-all text-myDarkBlue  ease-out text-base uppercase whitespace-nowrap mx-1"
+              className="px-2 py-1 md:px-4 md:py-2 font-semibold shadow bg-white focus:shadow-outline hover:bg-myLightBlue transition-all text-myDarkBlue  ease-out text-base uppercase whitespace-nowrap mx-1"
             >
               Log out
             </button>
