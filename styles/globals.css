@@ -18,6 +18,13 @@ a {
   background: rgb(34,193,195);
   background: linear-gradient(144deg, rgba(34,193,195,1) 0%, rgba(45,105,253,1) 100%); 
 }
+@media screen and (max-width: 768px) {
+  .bgGradientForm{
+    background: rgb(34,193,195);
+    background: linear-gradient(144deg, rgba(34,193,195,1) 0%, rgba(45,105,253,1) 100%); 
+  }
+}
+
 * {
   box-sizing: border-box;
   font-family: Lato;

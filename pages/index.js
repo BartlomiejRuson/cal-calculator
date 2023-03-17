@@ -228,7 +228,7 @@ export default function Home({ myKey }) {
       </main>
 
       <form
-        className="text-center bgGradient md:bg-transparent text-white"
+        className="text-center md:bg-transparent bgGradientForm  text-white"
         onSubmit={handleSubmit}
         id="form"
       >

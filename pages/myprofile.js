@@ -27,10 +27,10 @@ function MyProfile() {
       </Link>
       <div className="bg-white w-5/6 h-96 left-1/2 -translate-x-1/2 -translate-y-1/2 absolute top-1/2">
         <div className="grid grid-cols-4 p-5 h-full">
-          <div className="flex justify-center items-center">
+          <div className="flex justify-center items-center hidden sm:flex">
             <Image src={AvatarImage} alt="avatar" />
           </div>
-          <div className="text-center flex text-lg font-semibold  flex-col justify-around">
+          <div className="text-center sm:col-span-1 col-span-2 flex text-lg font-semibold  flex-col justify-around">
             <h2>{user?.email}</h2>
             <div className="flex gap-5 flex-col items-center">
               <h2>Your current weight: {newWeight} kg</h2>
